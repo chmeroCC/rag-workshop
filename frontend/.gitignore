@@ -1,0 +1,10 @@
+# Flask
+*.flaskenv
+*.flask-env
+
+# Frontend temporary files
+frontend/__pycache__/
+frontend/.env
+
+# VS Code
+.vscode/

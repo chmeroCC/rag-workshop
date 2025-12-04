@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Chatbot - Document Intelligence</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>RAG Document Intelligence</h1>
+            </div>
+            <div class="status" id="status-indicator">
+                <span class="status-dot"></span>
+                <span id="status-text">Connexion...</span>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Sidebar - Upload PDF -->
+            <aside class="sidebar">
+                <div class="upload-section">
+                    <h2><i class="fas fa-file-upload"></i> Charger un PDF</h2>
+                    <div class="upload-area" id="upload-area">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Glissez-déposez votre PDF ici</p>
+                        <p class="upload-subtext">ou cliquez pour parcourir</p>
+                        <input type="file" id="pdf-input" accept=".pdf" hidden>
+                        <button class="btn-browse" onclick="document.getElementById('pdf-input').click()">
+                            Parcourir les fichiers
+                        </button>
+                    </div>
+                    <div class="file-info" id="file-info" style="display: none;">
+                        <h3><i class="fas fa-file-pdf"></i> Document chargé :</h3>
+                        <p id="filename"></p>
+                        <p class="doc-id">ID: <span id="doc-id"></span></p>
+                        <button class="btn-reset" onclick="resetSession()">
+                            <i class="fas fa-redo"></i> Nouveau document
+                        </button>
+                    </div>
+                    <div class="instructions">
+                        <h3><i class="fas fa-info-circle"></i> Instructions :</h3>
+                        <ol>
+                            <li>Chargez un document PDF</li>
+                            <li>Posez des questions sur le contenu</li>
+                            <li>Obtenez des réponses précises avec citations</li>
+                        </ol>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Chat Area -->
+            <main class="chat-area">
+                <div class="chat-container">
+                    <!-- Chat Messages -->
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="welcome-message">
+                            <i class="fas fa-comments"></i>
+                            <h2>Bienvenue sur RAG Chatbot</h2>
+                            <p>Chargez un document PDF à gauche pour commencer à poser des questions.</p>
+                            <p>Le système utilisera Azure OpenAI et Pinecone pour fournir des réponses précises basées sur votre document.</p>
+                        </div>
+                    </div>
+
+                    <!-- Input Area -->
+                    <div class="input-area" id="input-area" style="display: none;">
+                        <div class="input-container">
+                            <input 
+                                type="text" 
+                                id="question-input" 
+                                placeholder="Posez une question sur votre document..." 
+                                autocomplete="off"
+                            >
+                            <button id="send-btn" onclick="sendQuestion()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div class="input-hint">
+                            <i class="fas fa-lightbulb"></i>
+                            Appuyez sur Entrée pour envoyer
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sources Section -->
+                <div class="sources-section" id="sources-section" style="display: none;">
+                    <h3><i class="fas fa-quote-right"></i> Sources citées</h3>
+                    <div class="sources-container" id="sources-container">
+                        <!-- Les sources seront affichées ici -->
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="tech-stack">
+                <span class="tech-item">
+                    <i class="fas fa-bolt"></i> Azure OpenAI
+                </span>
+                <span class="tech-item">
+                    <i class="fas fa-database"></i> Pinecone
+                </span>
+                <span class="tech-item">
+                    <i class="fas fa-code"></i> LangChain
+                </span>
+                <span class="tech-item">
+                    <i class="fas fa-brain"></i> RAG
+                </span>
+            </div>
+            <p class="copyright">© 2024 RAG Document Intelligence - Tous droits réservés</p>
+        </footer>
+    </div>
+
+    <!-- Loading Modal -->
+    <div class="modal" id="loading-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="loader"></div>
+            <p id="loading-text">Traitement en cours...</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
